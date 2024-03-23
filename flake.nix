@@ -54,8 +54,6 @@
               cd $out/server
               echo "running npm ci at $(pwd)"
               HOME=$PWD npm ci
-              #HOME=. npm ci
-              #HOME=$out npm install
             '';
             installPhase = ''
               echo "installing it"
