@@ -22,7 +22,7 @@
     - /server <- is the server that lets the rescript language server client (vscode, neovim...) talk to the compiler toolchain (a reason/ocaml project)
     - /client <- is the vscode extension that allows vscode to talk to the rescript language server
     - the top level package.json installs some packages (chokidar, vscode libraries for making extensions/doing LSP)
-- The 'postinstall' step for building the top-level NPM package is hairy and doesn't work well with Nix:``
+- The 'postinstall' step for building the top-level NPM package is hairy and doesn't work well with Nix:
     ```
 	"scripts": {
 		...

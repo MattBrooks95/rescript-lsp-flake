@@ -34,10 +34,28 @@
         "type": "github"
       }
     },
+    "rescript-vscode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1710404592,
+        "narHash": "sha256-4b2Z94/CCvPge9qKmv8svUib8zJ9NEZ+FYeylgmkKBQ=",
+        "owner": "rescript-lang",
+        "repo": "rescript-vscode",
+        "rev": "823bf6797417700e295b227e2255b4be2d9b6117",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rescript-lang",
+        "ref": "1.50.0",
+        "repo": "rescript-vscode",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "rescript-vscode": "rescript-vscode"
       }
     },
     "systems": {
