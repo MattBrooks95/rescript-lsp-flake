@@ -36,23 +36,24 @@
               echo "building it"
               echo "buildPhase working directory $(pwd)"
               echo "home is $HOME"
+              echo "PWD env variable:$PWD"
               echo "out is:$out"
               mkdir $out
-              mkdir ./.npm
+              mkdir $PWD/.npm
+              # TODO see if `HOME=$PWD npm config set cache="$PWD/.npm" works too
+              # I looked at the buildNpmPackage nix source and saw them set it this way instead
+              # and this way worked immediately
+              export npm_config_cache="$PWD/.npm"
               echo "made npm cache dir"
-              cp -r ${serverDeps}/* ./.npm
-              cp -r ${rescript-vscode}/* $out/rescript-vscode
+              cp -r ${serverDeps}/* $PWD/.npm
+              cp -r ${rescript-vscode}/* $out
               ##echo "copied server deps to cache dir"
-              ##ls $out/.npm
-              ##echo "target dir"
-              ##echo "$out/.npm"
-              HOME=. npm config list
-              HOME=. npm config set cache=./.npm
               echo "set npm cach directory printing npm's cache config setting below:"
-              HOME=. npm config get cache
-              cd server
+              HOME=$PWD npm config get cache
+              chmod -R +w $out/server
+              cd $out/server
               echo "running npm ci at $(pwd)"
-              HOME=. npm ci
+              HOME=$PWD npm ci
               #HOME=. npm ci
               #HOME=$out npm install
             '';
