@@ -40,6 +40,10 @@
             src = rescript-vscode;
             buildInputs = [
               nodejs_20
+              # ideally we could just use the esbuild that gets installed by NPM
+              # but the server's package.json's build script assumes esbuild is installed globally
+              esbuild
+              # dune is used by buildDunePackage to build the ocaml dependencies, at least I think it is. The builder might not need this package?
               dune_3
             ];
             buildPhase = ''
@@ -65,7 +69,7 @@
               echo "running npm ci at $(pwd)"
               HOME=$PWD npm ci
               cd ..
-              #HOME=$PWD npm run bundle-server
+              HOME=$PWD npm run bundle-server
 ############# use dune to build analysis directory
               ls ${rescript-analysis-package}/bin
 #TODO production binary install folder 'linux' would be different on macos or windows
