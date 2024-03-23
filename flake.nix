@@ -64,8 +64,14 @@
               cd $out/server
               echo "running npm ci at $(pwd)"
               HOME=$PWD npm ci
+              cd ..
+              #HOME=$PWD npm run bundle-server
 ############# use dune to build analysis directory
               ls ${rescript-analysis-package}/bin
+#TODO production binary install folder 'linux' would be different on macos or windows
+#move the analysis binary to the folder that the javascript language server expects it to be in
+              mkdir -p $out/server/src/analysis_binaries/linux
+              cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/server/src/analysis_binaries/linux/rescript-editor-analysis.exe
             '';
             installPhase = ''
               echo "installing it"
