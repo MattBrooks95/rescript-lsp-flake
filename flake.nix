@@ -14,6 +14,16 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        rescript-analysis-package = pkgs.ocamlPackages.buildDunePackage rec {
+          pname = "analysis";
+          version = "0.0.1";
+          src = rescript-vscode;
+# this had to be nativeBuildInputs and not buildInputs
+          nativeBuildInputs = [ pkgs.ocamlPackages.cppo ];
+          #buildPhase = ''
+          #  echo "in dune build phase"
+          #'';
+        };
         rescript-vscode-package =
           let
             #clientNpmDepsHash = "sha256-jlEObGj4f/CoxGaRZfc10rnX/IHn0ZM3Ik1UX9Aa1uk=";
@@ -54,6 +64,8 @@
               cd $out/server
               echo "running npm ci at $(pwd)"
               HOME=$PWD npm ci
+############# use dune to build analysis directory
+              ls ${rescript-analysis-package}/bin
             '';
             installPhase = ''
               echo "installing it"
