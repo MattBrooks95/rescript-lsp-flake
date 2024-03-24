@@ -91,7 +91,9 @@
               echo "installing it"
               echo "install phase working directory is $(pwd)"
               mkdir -p $out/bin
-              cp ${mkCommand (placeholder "bin")} $out/bin/rescript-language-server
+              # "bin" for the placeholder didn' work. How do I make this point to the
+              # cli.js file in the final output in the nix store?????
+              cp ${mkCommand (placeholder "dev")} $out/bin/rescript-language-server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
