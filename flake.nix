@@ -90,8 +90,8 @@
             installPhase = ''
               echo "installing it"
               echo "install phase working directory is $(pwd)"
-              #mkdir -p $out/bin
-              #cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
+              mkdir -p $out/bin
+              cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
@@ -106,7 +106,7 @@
         packages.default = rescript-vscode-package;
         apps.default = {
           type = "app";
-          program = "${self.packages.${system}.default}";
+          program = "${self.packages.${system}.default}/bin/rescript-language-server";
         };
       }
     );
