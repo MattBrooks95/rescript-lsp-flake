@@ -24,6 +24,9 @@
           #  echo "in dune build phase"
           #'';
         };
+        command = pkgs.writeShellScript "rescript-language-server" ''
+        node $out/server/out/cli.js
+        '';
         rescript-vscode-package =
           let
             #clientNpmDepsHash = "sha256-jlEObGj4f/CoxGaRZfc10rnX/IHn0ZM3Ik1UX9Aa1uk=";
@@ -85,6 +88,10 @@
           });
       in {
         packages.default = rescript-vscode-package;
+        apps.default = {
+          type = "app";
+          program = "${self.packages.${system}.default}/out/server";
+        };
       }
     );
 }
