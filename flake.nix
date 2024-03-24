@@ -24,8 +24,8 @@
           #  echo "in dune build phase"
           #'';
         };
-        command = pkgs.writeShellScript "rescript-language-server" ''
-        node $out/server/out/cli.js
+        mkCommand = out: pkgs.writeShellScript "rescript-language-server" ''
+        node ${out}/server/out/cli.js
         '';
         rescript-vscode-package =
           let
@@ -84,7 +84,7 @@
               echo "installing it"
               echo "install phase working directory is $(pwd)"
               mkdir -p $out/bin
-              cp ${command} $out/bin/rescript-language-server
+              cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
             '';
           });
       in {
