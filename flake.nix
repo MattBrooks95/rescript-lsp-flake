@@ -106,7 +106,7 @@
         packages.default = rescript-vscode-package;
         apps.default = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/rescript-language-server";
+          program = "${self.packages.${system}.default}";
         };
       }
     );
