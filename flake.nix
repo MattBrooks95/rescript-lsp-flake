@@ -26,7 +26,7 @@
           #  echo "in dune build phase"
           #'';
         };
-        rescript-vscode-package =
+        rescript-language-server =
           let
             #clientNpmDepsHash = "sha256-jlEObGj4f/CoxGaRZfc10rnX/IHn0ZM3Ik1UX9Aa1uk=";
             #clientDeps = pkgs.fetchNpmDeps {
@@ -105,10 +105,10 @@
             '';
           });
       in rec {
-        packages.default = rescript-vscode-package;
+        packages.default = rescript-language-server;
         apps.rescript-language-server = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/rescript-language-server";
+          program = "${self.packages.${system}.default}/server/out/cli.js";
         };
         apps.default = apps.rescript-language-server;
       }
