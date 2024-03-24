@@ -37,7 +37,7 @@
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
             mkLspCommand = outDirPath: (pkgs.writeShellScript "rescript-language-server" ''
-              ${outDirPath}/server/out/cli.js
+              ./server/out/cli.js
               '');
           in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
