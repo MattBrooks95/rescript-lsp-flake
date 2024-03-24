@@ -36,6 +36,9 @@
               hash = "sha256-xxGELwjKIGRK1/a8P7uvUCKrP9y8kqAHSBfi2/IsebU=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
+            mkLspCommand = outDirPath: (pkgs.writeShellScript "rescript-language-server" ''
+              ${outDirPath}/server/out/cli.js
+              '');
           in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
             version = "1.50.0";
@@ -53,9 +56,6 @@
               # this lets you use 'wrapProgram'
               pkgs.makeWrapper
             ];
-            rescript-lsp-command-alias = pkgs.writeShellScript "rescript-language-server" ''
-            $out/server/out/cli.js
-            '';
             buildPhase = ''
               echo "building it"
               echo "buildPhase working directory $(pwd)"
@@ -91,7 +91,8 @@
               echo "installing it"
               echo "install phase working directory is $(pwd)"
               mkdir -p $out/bin
-              cp ${rescript-lsp-command-alias} $out/bin/rescript-language-server
+              cp ${mkLspCommand (placeholder "out")} $out/bin/rescript-language-server
+              cp -r $out/server $out/bin/server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
