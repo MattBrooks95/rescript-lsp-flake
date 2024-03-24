@@ -105,14 +105,13 @@
               --set PATH $wrapperPath
             '';
           });
-      in {
+      in rec {
         packages.default = rescript-vscode-package;
-        apps.default = {
+        apps.rescript-language-server = {
           type = "app";
-#         # the resulting directories in the store seem correct but the wrapped program
-          # is pointing at a different place in the store...
-          program = "${self.packages.${system}.default}";
+          program = "${self.packages.${system}.default}/server/out/cli.js";
         };
+        apps.default = apps.rescript-language-server;
       }
     );
 }
