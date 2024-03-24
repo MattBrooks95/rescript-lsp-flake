@@ -18,8 +18,10 @@
           pname = "analysis";
           version = "0.0.1";
           src = rescript-vscode;
-# this had to be nativeBuildInputs and not buildInputs
-          nativeBuildInputs = [ pkgs.ocamlPackages.cppo ];
+          nativeBuildInputs = [
+            # this (cppo) had to be nativeBuildInputs and not buildInputs
+            pkgs.ocamlPackages.cppo
+          ];
           #buildPhase = ''
           #  echo "in dune build phase"
           #'';
@@ -37,7 +39,7 @@
               hash =  "sha256-xxGELwjKIGRK1/a8P7uvUCKrP9y8kqAHSBfi2/IsebU=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
-          in (with pkgs; stdenv.mkDerivation {
+          in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
             version = "1.50.0";
             src = rescript-vscode;
@@ -49,6 +51,10 @@
               esbuild
               # dune is used by buildDunePackage to build the ocaml dependencies, at least I think it is. The builder might not need this package?
               dune_3
+            ];
+            nativeBuildInputs = [
+              # this lets you use 'wrapProgram'
+              pkgs.makeWrapper
             ];
             buildPhase = ''
               echo "building it"
@@ -84,15 +90,23 @@
             installPhase = ''
               echo "installing it"
               echo "install phase working directory is $(pwd)"
-              mkdir -p $out/bin
-              cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
+              #mkdir -p $out/bin
+              #cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
+            '';
+            wrapperPath = nixpkgs.lib.strings.makeBinPath [
+              # the LSP will need NODE to be able to execute the server
+              nodejs_20
+            ];
+            postFixup = ''
+              wrapProgram $out/server/out/cli.js \
+              --set PATH $wrapperPath
             '';
           });
       in {
         packages.default = rescript-vscode-package;
         apps.default = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/rescript-language-server";
+          program = "${self.packages.${system}.default}";
         };
       }
     );
