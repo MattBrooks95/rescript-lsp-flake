@@ -103,6 +103,10 @@
           type = "app";
           program = "${self.packages.${system}.default}/server/out/cli.js";
         };
+        apps.test = {
+          type = "app";
+          program = ''echo "hello from package"'';
+        };
         apps.default = apps.rescript-language-server;
       }
     );
