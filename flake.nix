@@ -90,7 +90,7 @@
         packages.default = rescript-vscode-package;
         apps.default = {
           type = "app";
-          program = "${self.packages.${system}.default}/out/server";
+          program = command;
         };
       }
     );
