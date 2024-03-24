@@ -45,6 +45,7 @@
               nodejs_20
               # ideally we could just use the esbuild that gets installed by NPM
               # but the server's package.json's build script assumes esbuild is installed globally
+              # TODO this might be better as a native build input, same for dune_3
               esbuild
               # dune is used by buildDunePackage to build the ocaml dependencies, at least I think it is. The builder might not need this package?
               dune_3
