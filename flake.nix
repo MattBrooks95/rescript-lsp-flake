@@ -93,7 +93,8 @@
               mkdir -p $out/bin
               # "bin" for the placeholder didn' work. How do I make this point to the
               # cli.js file in the final output in the nix store?????
-              cp ${mkCommand (placeholder "dev")} $out/bin/rescript-language-server
+              # "dev" didn't work either
+              cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
