@@ -36,7 +36,7 @@
             #};
             serverDeps = pkgs.fetchNpmDeps {
               src = "${rescript-vscode}/server";
-              hash =  "sha256-xxGELwjKIGRK1/a8P7uvUCKrP9y8kqAHSBfi2/IsebU=";
+              hash = "sha256-xxGELwjKIGRK1/a8P7uvUCKrP9y8kqAHSBfi2/IsebU=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
           in (with pkgs; stdenv.mkDerivation rec {
@@ -91,7 +91,7 @@
               echo "installing it"
               echo "install phase working directory is $(pwd)"
               mkdir -p $out/bin
-              cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
+              cp ${mkCommand (placeholder "bin")} $out/bin/rescript-language-server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
