@@ -26,9 +26,6 @@
           #  echo "in dune build phase"
           #'';
         };
-        mkCommand = out: pkgs.writeShellScript "rescript-language-server" ''
-        node ${out}/server/out/cli.js
-        '';
         rescript-vscode-package =
           let
             #clientNpmDepsHash = "sha256-jlEObGj4f/CoxGaRZfc10rnX/IHn0ZM3Ik1UX9Aa1uk=";
@@ -90,11 +87,6 @@
             installPhase = ''
               echo "installing it"
               echo "install phase working directory is $(pwd)"
-              mkdir -p $out/bin
-              # "bin" for the placeholder didn' work. How do I make this point to the
-              # cli.js file in the final output in the nix store?????
-              # "dev" didn't work either
-              cp ${mkCommand (placeholder "out")} $out/bin/rescript-language-server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
