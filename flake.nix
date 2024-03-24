@@ -105,10 +105,10 @@
           });
       in rec {
         packages.default = rescript-vscode-package;
-        #apps.rescript-language-server = {
-        #  type = "app";
-        #  program = "${self.packages.${system}.default}/bin/rescript-language-server";
-        #};
+        apps.rescript-language-server = {
+          type = "app";
+          program = "${self.packages.${system}.default}/bin/rescript-language-server";
+        };
         apps.default = apps.rescript-language-server;
       }
     );
