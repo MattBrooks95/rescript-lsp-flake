@@ -79,12 +79,12 @@
 #move the analysis binary to the folder that the javascript language server expects it to be in
               mkdir -p $out/server/src/analysis_binaries/linux
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/server/src/analysis_binaries/linux/rescript-editor-analysis.exe
-              cp ${command} $out/bin
             '';
             installPhase = ''
               echo "installing it"
               echo "install phase working directory is $(pwd)"
-              ls
+              mkdir -p $out/bin
+              cp ${command} $out/bin/rescript-language-server
             '';
           });
       in {
