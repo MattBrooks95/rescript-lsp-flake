@@ -106,6 +106,8 @@
         packages.default = rescript-vscode-package;
         apps.default = {
           type = "app";
+#         # the resulting directories in the store seem correct but the wrapped program
+          # is pointing at a different place in the store...
           program = "${self.packages.${system}.default}";
         };
       }
