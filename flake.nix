@@ -92,6 +92,7 @@
               echo "install phase working directory is $(pwd)"
               mkdir -p $out/bin
               cp ${mkLspCommand (placeholder "out")} $out/bin/rescript-language-server
+              # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
               cp -r $out/server $out/bin/server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
