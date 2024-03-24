@@ -79,6 +79,7 @@
 #move the analysis binary to the folder that the javascript language server expects it to be in
               mkdir -p $out/server/src/analysis_binaries/linux
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/server/src/analysis_binaries/linux/rescript-editor-analysis.exe
+              cp ${command} $out/bin
             '';
             installPhase = ''
               echo "installing it"
@@ -90,7 +91,7 @@
         packages.default = rescript-vscode-package;
         apps.default = {
           type = "app";
-          program = command;
+          program = "${self.packages.${system}.default}/bin/rescript-language-server";
         };
       }
     );
