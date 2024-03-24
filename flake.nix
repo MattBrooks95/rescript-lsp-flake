@@ -90,7 +90,8 @@
             installPhase = ''
               echo "installing it"
               echo "install phase working directory is $(pwd)"
-              cp -r ${rescript-lsp-command-alias} $out/bin
+              mkdir -p $out/bin
+              cp ${rescript-lsp-command-alias} $out/bin/rescript-language-server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
