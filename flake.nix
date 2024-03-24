@@ -53,6 +53,9 @@
               # this lets you use 'wrapProgram'
               pkgs.makeWrapper
             ];
+            rescript-lsp-command-alias = pkgs.writeShellScript "rescript-language-server" ''
+            $out/server/out/cli.js
+            '';
             buildPhase = ''
               echo "building it"
               echo "buildPhase working directory $(pwd)"
@@ -87,6 +90,7 @@
             installPhase = ''
               echo "installing it"
               echo "install phase working directory is $(pwd)"
+              cp -r ${rescript-lsp-command-alias} $out/bin
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
@@ -101,11 +105,7 @@
         packages.default = rescript-vscode-package;
         apps.rescript-language-server = {
           type = "app";
-          program = "${self.packages.${system}.default}/server/out/cli.js";
-        };
-        apps.test = {
-          type = "app";
-          program = ''echo "hello from package"'';
+          program = "${self.packages.${system}.default}/bin/rescript-language-server";
         };
         apps.default = apps.rescript-language-server;
       }
