@@ -36,9 +36,9 @@
               hash = "sha256-xxGELwjKIGRK1/a8P7uvUCKrP9y8kqAHSBfi2/IsebU=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
-            mkLspCommand = outDirPath: (pkgs.writeShellScript "rescript-language-server" ''
-              ${outDirPath}/server/out/cli.js
-              '');
+            #mkLspCommand = outDirPath: (pkgs.writeShellScript "rescript-language-server" ''
+            #  ${outDirPath}/server/out/cli.js
+            #  '');
           in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
             version = "1.50.0";
@@ -91,9 +91,9 @@
               echo "installing it"
               echo "install phase working directory is $(pwd)"
               mkdir -p $out/bin
-              cp ${mkLspCommand (placeholder "out")} $out/bin/rescript-language-server
               # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
-              cp -r $out/server $out/bin/server
+              cp $out/server/out/cli.js $out/bin/rescript-language-server
+              #cp -r $out/server $out/bin/server
             '';
             wrapperPath = nixpkgs.lib.strings.makeBinPath [
               # the LSP will need NODE to be able to execute the server
