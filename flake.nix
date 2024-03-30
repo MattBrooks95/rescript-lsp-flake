@@ -22,23 +22,14 @@
             # this (cppo) had to be nativeBuildInputs and not buildInputs
             pkgs.ocamlPackages.cppo
           ];
-          #buildPhase = ''
-          #  echo "in dune build phase"
-          #'';
         };
         rescript-vscode-package =
           let
-            #clientNpmDepsHash = "sha256-jlEObGj4f/CoxGaRZfc10rnX/IHn0ZM3Ik1UX9Aa1uk=";
-            #clientDeps = pkgs.fetchNpmDeps {
-            #};
             serverDeps = pkgs.fetchNpmDeps {
               src = "${rescript-vscode}/server";
               hash = "sha256-xxGELwjKIGRK1/a8P7uvUCKrP9y8kqAHSBfi2/IsebU=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
-            #mkLspCommand = outDirPath: (pkgs.writeShellScript "rescript-language-server" ''
-            #  ${outDirPath}/server/out/cli.js
-            #  '');
           in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
             version = "1.50.0";
@@ -93,15 +84,7 @@
               mkdir -p $out/bin
               # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
               cp $out/server/out/cli.js $out/bin/rescript-language-server
-              #cp -r $out/server $out/bin/server
-            '';
-            wrapperPath = nixpkgs.lib.strings.makeBinPath [
-              # the LSP will need NODE to be able to execute the server
-              nodejs_20
-            ];
-            postFixup = ''
-              wrapProgram $out/server/out/cli.js \
-              --set PATH $wrapperPath
+              cp -r $out/server $out/bin/server
             '';
           });
       in rec {
