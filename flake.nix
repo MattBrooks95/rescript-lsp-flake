@@ -84,6 +84,7 @@
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/analysis_binaries/linux/rescript-editor-analysis.exe
               # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
               cp $out/server/out/cli.js $out/bin/rescript-language-server
+              cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/rescript-editor-analysis.exe
             '';
           });
       in rec {
