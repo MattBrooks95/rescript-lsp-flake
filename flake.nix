@@ -34,6 +34,8 @@
               hash = "sha256-dVTeeICtCHXpHzemGmN8B9VEjz0BsVND6Ly5FT3vcvA=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
+# this won't work because '.' is relative to where the command is executed from, not from where the bash script is
+# all I need to do is to be able to call cli.js man.....
             #callCliShellScript = pkgs.writeShellScript "rescript-language-server" ''
             #./server/cli.js
             #'';
