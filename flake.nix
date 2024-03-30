@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=23.11";
-    flake-utils.url = "github:numtide/flake-utils";
     rescript-vscode = {
       url = "github:rescript-lang/rescript-vscode?ref=1.50.0";
       flake = false;
@@ -11,9 +10,8 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, rescript-vscode, ... }@inputs:
-    flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
         rescript-analysis-package = pkgs.ocamlPackages.buildDunePackage rec {
           pname = "analysis";
           version = "0.0.1";
@@ -88,12 +86,11 @@
             '';
           });
       in rec {
-        packages.default = rescript-vscode-package;
+        packages."x86_64-linux".default = rescript-vscode-package;
         apps.rescript-language-server = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/rescript-language-server";
+          program = "${self.packages."x86_64-linux".default}/bin/rescript-language-server";
         };
         apps.default = apps.rescript-language-server;
-      }
-    );
+      };
 }
