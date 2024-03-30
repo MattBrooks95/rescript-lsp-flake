@@ -29,6 +29,10 @@
               src = "${rescript-vscode}/server";
               hash = "sha256-xxGELwjKIGRK1/a8P7uvUCKrP9y8kqAHSBfi2/IsebU=";
             };
+            toolsDeps = pkgs.fetchNpmDeps {
+              src = "${rescript-vscode}/tools";
+              hash = "sha256-dVTeeICtCHXpHzemGmN8B9VEjz0BsVND6Ly5FT3vcvA=";
+            };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
           in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
@@ -61,6 +65,9 @@
               export npm_config_cache="$PWD/.npm"
               echo "made npm cache dir"
               cp -r ${serverDeps}/* $PWD/.npm
+              echo "done copying server NPM deps"
+              chmod -R +w $PWD/.npm
+              cp -rf ${toolsDeps}/* $PWD/.npm
               cp -r ${rescript-vscode}/* $out
               ##echo "copied server deps to cache dir"
               echo "set npm cach directory printing npm's cache config setting below:"
@@ -70,7 +77,12 @@
               echo "running npm ci at $(pwd)"
               HOME=$PWD npm ci
               cd ..
+              echo "bundling server"
               HOME=$PWD npm run bundle-server
+              echo "building tools"
+              chmod -R +w $out/tools
+              cd $out/tools
+              HOME=$PWD npm ci
 ############# use dune to build analysis directory
               ls ${rescript-analysis-package}/bin
 #TODO production binary install folder 'linux' would be different on macos or windows
@@ -85,6 +97,7 @@
               # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
               cp $out/server/out/cli.js $out/bin/rescript-language-server
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/rescript-editor-analysis.exe
+              cp -r $out/tools $out/bin/tools
             '';
           });
       in rec {
