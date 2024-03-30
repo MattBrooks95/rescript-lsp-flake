@@ -3,15 +3,17 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=23.11";
-    rescript-vscode = {
-      url = "github:rescript-lang/rescript-vscode?ref=1.50.0";
-      flake = false;
-    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, rescript-vscode, ... }@inputs:
+  outputs = { self, nixpkgs, flake-utils, ... }@inputs:
       let
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        rescript-vscode = pkgs.fetchFromGitHub {
+          owner = "rescript-lang";
+          repo = "rescript-vscode";
+          rev = "1.50.0";
+          hash = "sha256-4b2Z94/CCvPge9qKmv8svUib8zJ9NEZ+FYeylgmkKBQ=";
+        };
         rescript-analysis-package = pkgs.ocamlPackages.buildDunePackage rec {
           pname = "analysis";
           version = "0.0.1";
