@@ -1,0 +1,11 @@
+--- a/server/src/constants.ts
++++ b/server/src/constants.ts
+@@ -21,7 +21,7 @@ export let analysisDevPath = path.join(
+   "rescript-editor-analysis.exe"
+ );
+ export let analysisProdPath = path.join(
+-  path.dirname(__dirname),
++  __dirname,
+   "analysis_binaries",
+   platformDir,
+   "rescript-editor-analysis.exe"

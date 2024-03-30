@@ -34,11 +34,6 @@
               hash = "sha256-dVTeeICtCHXpHzemGmN8B9VEjz0BsVND6Ly5FT3vcvA=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
-# this won't work because '.' is relative to where the command is executed from, not from where the bash script is
-# all I need to do is to be able to call cli.js man.....
-            #callCliShellScript = pkgs.writeShellScript "rescript-language-server" ''
-            #./server/cli.js
-            #'';
           in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
             version = "1.50.0";
@@ -56,12 +51,20 @@
               # this lets you use 'wrapProgram'
               pkgs.makeWrapper
             ];
+            prePatch = ''
+            echo "in prepatch"
+            '';
+            patches = [ ./constants.patch ];
+            postPatch = ''
+            echo "in postpatch"
+            '';
             buildPhase = ''
-              echo "building it"
               echo "buildPhase working directory $(pwd)"
               echo "home is $HOME"
               echo "PWD env variable:$PWD"
               echo "out is:$out"
+              echo "src is:$src"
+              echo "src from variable is:${rescript-vscode}"
               mkdir $out
               mkdir $PWD/.npm
               # TODO see if `HOME=$PWD npm config set cache="$PWD/.npm" works too
@@ -73,7 +76,9 @@
               echo "done copying server NPM deps"
               chmod -R +w $PWD/.npm
               cp -rf ${toolsDeps}/* $PWD/.npm
-              cp -r ${rescript-vscode}/* $out
+              cp -r server $out/server
+              cp -r tools $out/tools
+              cp package.json $out/package.json
               ##echo "copied server deps to cache dir"
               echo "set npm cach directory printing npm's cache config setting below:"
               HOME=$PWD npm config get cache
@@ -99,10 +104,7 @@
               mkdir -p $out/bin
               mkdir -p $out/bin/analysis_binaries/linux
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/analysis_binaries/linux/rescript-editor-analysis.exe
-              # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
-              mkdir -p $out/bin/server
-              echo "made out/bin/server"
-              cp $out/server/out/cli.js $out/bin/server/rescript-language-server
+              cp $out/server/out/cli.js $out/bin/rescript-language-server
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/rescript-editor-analysis.exe
               cp -r $out/tools $out/bin/tools
             '';
