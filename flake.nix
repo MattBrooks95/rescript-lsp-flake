@@ -11,8 +11,8 @@
         rescript-vscode = pkgs.fetchFromGitHub {
           owner = "rescript-lang";
           repo = "rescript-vscode";
-          rev = "1.50.0";
-          hash = "sha256-4b2Z94/CCvPge9qKmv8svUib8zJ9NEZ+FYeylgmkKBQ=";
+          rev = "1.46.0";
+          hash = "sha256-8EgUMhMnO95n4iF3A0ULymeF9QmgxFb23X8G7gFVIK4=";
         };
         rescript-analysis-package = pkgs.ocamlPackages.buildDunePackage rec {
           pname = "analysis";
