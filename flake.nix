@@ -34,6 +34,9 @@
               hash = "sha256-dVTeeICtCHXpHzemGmN8B9VEjz0BsVND6Ly5FT3vcvA=";
             };
             topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
+            #callCliShellScript = pkgs.writeShellScript "rescript-language-server" ''
+            #./server/cli.js
+            #'';
           in (with pkgs; stdenv.mkDerivation rec {
             name = "rescript vscode lsp server";
             version = "1.50.0";
@@ -95,7 +98,9 @@
               mkdir -p $out/bin/analysis_binaries/linux
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/analysis_binaries/linux/rescript-editor-analysis.exe
               # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
-              cp $out/server/out/cli.js $out/bin/rescript-language-server
+              mkdir -p $out/bin/server
+              echo "made out/bin/server"
+              cp $out/server/out/cli.js $out/bin/server/rescript-language-server
               cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/rescript-editor-analysis.exe
               cp -r $out/tools $out/bin/tools
             '';
