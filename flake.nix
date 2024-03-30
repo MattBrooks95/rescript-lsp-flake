@@ -75,16 +75,15 @@
               ls ${rescript-analysis-package}/bin
 #TODO production binary install folder 'linux' would be different on macos or windows
 #move the analysis binary to the folder that the javascript language server expects it to be in
-              mkdir -p $out/bin/analysis_binaries/linux
-              cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/analysis_binaries/linux/rescript-editor-analysis.exe
             '';
             installPhase = ''
               echo "installing it"
               echo "install phase working directory is $(pwd)"
               mkdir -p $out/bin
+              mkdir -p $out/bin/analysis_binaries/linux
+              cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/analysis_binaries/linux/rescript-editor-analysis.exe
               # TODO this probably isn't necessary, I think the 'server' directory exists in $out even if I don't copy it to $out/bin
               cp $out/server/out/cli.js $out/bin/rescript-language-server
-              cp -r $out/server $out/bin/server
             '';
           });
       in rec {
