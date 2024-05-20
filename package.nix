@@ -11,8 +11,8 @@
     rescript-vscode = pkgs.fetchFromGitHub {
       owner = "rescript-lang";
       repo = "rescript-vscode";
-      rev = "1.50.0";
-      hash = "sha256-4b2Z94/CCvPge9qKmv8svUib8zJ9NEZ+FYeylgmkKBQ=";
+      rev = "latest-master";
+      hash = "sha256-3HHsCunXuMgvRAoNkAvhwTRwxIvIj4yl2qu9b6r7n/4=";
     };
     rescript-analysis-package = pkgs.ocamlPackages.buildDunePackage rec {
       pname = "analysis";
@@ -34,7 +34,7 @@
     topLevelPackageNpmDepsHash = "sha256-J5B/E3x5A1WAZRYPOVHXTuAWLj9laawvB/mqzmryCko=";
   in pkgs.stdenv.mkDerivation rec {
       name = "rescript vscode lsp server";
-      version = "1.50.0";
+      version = "master-latest";
       src = rescript-vscode;
       buildInputs = [
         pkgs.nodejs_20
