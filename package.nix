@@ -61,9 +61,9 @@
         export npm_config_cache="$PWD/.npm"
         cp -r ${serverDeps}/* $PWD/.npm
         chmod -R +w $PWD/.npm
-        cp -rf ${toolsDeps}/* $PWD/.npm
+        #cp -rf ${toolsDeps}/* $PWD/.npm
         cp -r server $out/server
-        cp -r tools $out/tools
+        # cp -r tools $out/tools
         cp package.json $out/package.json
         HOME=$PWD npm config get cache
         chmod -R +w $out/server
@@ -71,20 +71,15 @@
         HOME=$PWD npm ci
         cd ..
         HOME=$PWD npm run bundle-server
-        chmod -R +w $out/tools
-        cd $out/tools
-        HOME=$PWD npm ci
-        #TODO production binary install folder 'linux' would be different on macos or windows
-        #move the analysis binary to the folder that the javascript language server expects it to be in
+        # chmod -R +w $out/tools
+        # cd $out/tools
+        # HOME=$PWD npm ci
       '';
       installPhase =
         let binDir = systemToBinaryDir.${system};
         in ''
-          mkdir -p $out/bin
           mkdir -p $out/bin/analysis_binaries/${binDir}
           cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/analysis_binaries/${binDir}/rescript-editor-analysis.exe
           cp $out/server/out/cli.js $out/bin/rescript-language-server
-          cp ${rescript-analysis-package}/bin/rescript-editor-analysis $out/bin/rescript-editor-analysis.exe
-          cp -r $out/tools $out/bin/tools
         '';
     }
