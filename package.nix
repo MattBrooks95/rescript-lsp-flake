@@ -1,8 +1,13 @@
 { pkgs, system }:
   let
+    # this is how the rescript language server source code determins the directory name
+    # where it searches for the binary for the analysis features like typeDefinitions and such
+    # on Apple silicon, platformDir becomes darwin-arm64, not just 'darwin'
+    # export let platformDir =
+    #   process.arch == "arm64" ? process.platform + process.arch : process.platform;
     systemToBinaryDir = {
       "x86_64-linux" = "linux";
-      "aarch64-darwin" = "darwin";
+      "aarch64-darwin" = "darwin-arm64";
     };
     rescript-vscode = pkgs.fetchFromGitHub {
       owner = "rescript-lang";
