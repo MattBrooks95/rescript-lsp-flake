@@ -2,7 +2,7 @@
   description = "rescript frontend";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=23.11";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=24.05";
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
